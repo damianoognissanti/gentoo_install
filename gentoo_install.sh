@@ -53,25 +53,25 @@ sudo cp /etc/resolv.conf /mnt/etc/
 # Setup profile and locale
 ln -sf ../usr/share/zoneinfo/Europe/Stockholm /mnt/etc/localtime
 sed -i -e 's/^#en_US.UTF.*/en_US.UTF-8 UTF-8/g' /mnt/etc/locale.gen 
-arch-chroot /mnt env -i emerge-webrsync
-arch-chroot /mnt env -i getuto
-arch-chroot /mnt env -i eselect profile set "default/linux/amd64/23.0/desktop/gnome/systemd"
-arch-chroot /mnt env -i locale-gen
-arch-chroot /mnt env -i eselect locale set "en_US.utf8"
+arch-chroot /mnt bash -c 'emerge-webrsync'
+arch-chroot /mnt bash -c 'getuto'
+arch-chroot /mnt bash -c 'eselect profile set "default/linux/amd64/23.0/desktop/gnome/systemd"'
+arch-chroot /mnt bash -c 'locale-gen'
+arch-chroot /mnt bash -c 'eselect locale set "en_US.utf8"'
 # Install kernel
-arch-chroot /mnt env -i emerge sys-kernel/linux-firmware sys-firmware/sof-firmware sys-kernel/gentoo-kernel-bin
+arch-chroot /mnt bash -c 'emerge sys-kernel/linux-firmware sys-firmware/sof-firmware sys-kernel/gentoo-kernel-bin'
 # Store kernel name for boot entry
 LINUX=$(ls /mnt/lib/modules)
 ### END: Initial configuration of system.
 
 ### START: Install desktop environment + important programs
-arch-chroot /mnt env -i emerge gnome-base/gnome-light www-client/google-chrome x11-terms/terminator app-admin/keepassxc mail-client/thunderbird-bin media-video/pipewire media-video/wireplumber sys-auth/rtkit app-admin/sudo sys-auth/nss-mdns app-shells/fzf app-editors/neovim gui-apps/wl-clipboard dev-vcs/git
+arch-chroot /mnt bash -c 'emerge gnome-base/gnome-light www-client/google-chrome x11-terms/terminator app-admin/keepassxc mail-client/thunderbird-bin media-video/pipewire media-video/wireplumber sys-auth/rtkit app-admin/sudo sys-auth/nss-mdns app-shells/fzf app-editors/neovim gui-apps/wl-clipboard dev-vcs/git sys-fs/btrfs-progs sys-apps/arch-chroot'
 ### END: Install desktop environment + important programs
 
 ### START: Enable services
-arch-chroot /mnt env -i systemctl enable gdm
-arch-chroot /mnt env -i systemctl enable NetworkManager
-arch-chroot /mnt env -i systemctl enable avahi-daemon
+arch-chroot /mnt bash -c 'systemctl enable gdm'
+arch-chroot /mnt bash -c 'systemctl enable NetworkManager'
+arch-chroot /mnt bash -c 'systemctl enable avahi-daemon'
 ### END: Enable services
 
 ### START: Create and setup user account
