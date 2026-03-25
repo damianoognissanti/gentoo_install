@@ -95,6 +95,9 @@ arch-chroot "$MNT" bash -c 'eselect profile set "default/linux/amd64/23.0/deskto
 arch-chroot "$MNT" bash -c 'locale-gen && eselect locale set en_US.utf8 && env-update'
 
 # Kernel + firmware
+cat <<EOF > "$MNT/etc/cmdline"
+root=UUID=$RUUID rootflags=subvol=$SNAME rw rootfstype=btrfs
+EOF
 arch-chroot "$MNT" bash -c 'emerge sys-kernel/linux-firmware sys-firmware/sof-firmware sys-kernel/gentoo-kernel-bin'
 ### END: Initial configuration of system.
 
